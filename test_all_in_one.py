@@ -11,8 +11,6 @@ from pypdf import PdfReader
 from selenium import webdriver
 from openpyxl import load_workbook
 from selene.support.shared import browser
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
 PROJECT_ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 RESOURCES_PATH = os.path.join(PROJECT_ROOT_PATH, 'resources')
@@ -125,4 +123,3 @@ def test_add_files_to_zip():
     with zipfile.ZipFile(zip_name, "r") as zip_file:
         for file_name in os.listdir(RESOURCES_PATH):
             assert file_name in zip_file.namelist()
-
