@@ -8,12 +8,15 @@ import os.path
 import requests
 
 from pypdf import PdfReader
+from selene import have
 from selenium import webdriver
 from openpyxl import load_workbook
 from selene.support.shared import browser
 
+from os_path.os_path_scripts import tmp
+
 PROJECT_ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
-RESOURCES_PATH = os.path.join(PROJECT_ROOT_PATH, 'resources')
+RESOURCES_PATH = os.path.join(PROJECT_ROOT_PATH, 'tmp')
 
 
 # TODO оформить в тест, добавить ассерты и использовать универсальный путь
@@ -33,34 +36,26 @@ def test_csv():
 
 
 def test_download_with_browser():
-    options = webdriver.ChromeOptions()
-    prefs = {
-        "download.default_directory": RESOURCES_PATH,
-        "download.prompt_for_download": False
-    }
-    options.add_experimental_option("prefs", prefs)
-
-    browser.config.driver_options = options
-
     browser.open("https://github.com/pytest-dev/pytest")
+    browser.should(have.url("https://github.com/pytest-dev/pytest"))
+
     browser.element(".d-none .Button-label").click()
     browser.element('[data-open-app="link"]').click()
-    time.sleep(2)
+    time.sleep(5)
 
-
-download_file = os.path.join(RESOURCES_PATH, 'pytest-main.zip')
-assert os.path.exists(download_file)
+    download_file = os.path.join(RESOURCES_PATH, 'pytest-main.zip')
+    assert os.path.exists(download_file)
 
 
 def test_downloaded_file_size():
     # TODO сохранять и читать из tmp, использовать универсальный путь
     url = 'https://selenium.dev/images/selenium_logo_square_green.png'
     r = requests.get(url)
-    tmp = os.path.join(RESOURCES_PATH, 'selenium_logo.png')
+    path_t = os.path.join(RESOURCES_PATH, 'selenium_logo.png')
     with open('selenium_logo.png', 'wb') as file:
         file.write(r.content)
 
-    size = os.path.getsize(tmp)
+    size = os.path.getsize(path_t)
 
     assert size == 30803
 
