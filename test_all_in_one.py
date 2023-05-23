@@ -13,10 +13,8 @@ from selenium import webdriver
 from openpyxl import load_workbook
 from selene.support.shared import browser
 
-from os_path.os_path_scripts import tmp
+from os_path.os_path_scripts import tmp as RESOURCES_PATH
 
-PROJECT_ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
-RESOURCES_PATH = os.path.join(PROJECT_ROOT_PATH, 'tmp')
 
 
 # TODO оформить в тест, добавить ассерты и использовать универсальный путь
